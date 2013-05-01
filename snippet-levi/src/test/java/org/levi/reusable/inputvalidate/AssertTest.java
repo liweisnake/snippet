@@ -8,7 +8,7 @@ public class AssertTest {
 	@Test
 	public void testSpringAssert() {
 		String file = "";
-		Assert.hasText(file, "file入参不是有效的文件地址");
+		Assert.hasText(file, "file鍏ュ弬涓嶆槸鏈夋晥鐨勬枃浠跺湴鍧�");
 	}
 
 }
