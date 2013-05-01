@@ -1,0 +1,3 @@
+loginModule {
+	org.levi.reusable.jaas.NamePasswordCaptureLoginModule required;
+};

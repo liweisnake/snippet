@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<!---OpenSessionInViewFilter 它的主要功能是使每个请求过程绑定一个 Hibernate Session，即使最初的事务已经完成了，也可以在 Web 层进行延迟加载的操作。 --> 
+	<display-name>quickstart</display-name>
+	<filter> 
+	    <filter-name>hibernateFilter</filter-name> 
+	    <filter-class> 
+	    org.springframework.orm.hibernate3.support.OpenSessionInViewFilter 
+	    </filter-class> 
+	</filter> 
+	<filter-mapping> 
+    	<filter-name>hibernateFilter</filter-name> 
+    	<url-pattern>*.html</url-pattern> 
+	</filter-mapping> 
+	
+	<!---中文乱码过滤器 --> 
+	<filter> 
+    <filter-name>encodingFilter</filter-name> 
+    <filter-class> 
+        org.springframework.web.filter.CharacterEncodingFilter <!-- ① Spring 编辑过滤器 -->
+    </filter-class> 
+    <init-param> <!-- ② 编码方式 -->
+        <param-name>encoding</param-name> 
+        <param-value>UTF-8</param-value> 
+    </init-param> 
+    <init-param> <!-- ③ 强制进行编码转换-->
+        <param-name>forceEncoding</param-name> 
+        <param-value>true</param-value> 
+    </init-param> 
+    </filter> 
+    <filter-mapping> <!-- ② 过滤器的匹配 URL -->
+        <filter-name>encodingFilter</filter-name> 
+        <url-pattern>*.html</url-pattern> 
+    </filter-mapping> 
+ 
+    <!---中文乱码过滤器 --> 
+    <context-param> 
+	    <param-name>webAppRootKey</param-name> 
+	    <param-value>baobaotao.root</param-value> <!-- ① Web 应用根目录以该属性名添加到系统参数中 -->
+	 </context-param> 
+		<!-- ② 负责将 Web 应用根目录以 webAppRootKey 上下文参数指定的属性名添加到系统参数中 -->
+	 <listener> 
+	    <listener-class> 
+	    	org.springframework.web.util.WebAppRootListener 
+	    </listener-class> 
+	 </listener> 
+	 
+	 <!-- log4j listener -->
+    <context-param> 
+	    <param-name>log4jConfigLocation</param-name> 
+	    <param-value>/WEB-INF/log4j.properties</param-value> 
+	 </context-param> 
+	<!-- ② 使用该监听器初始化 Log4J 日志引擎 -->
+	 <listener> 
+	    <listener-class> 
+	    org.springframework.web.util.Log4jConfigListener 
+	    </listener-class> 
+	 </listener>
+	 
+	 <!-- 它主要负责处理由 JavaBean Introspector 功能而引起的缓存泄露。
+	 IntrospectorCleanupListener 监听器在 Web 应用关闭的时会负责清除 JavaBean Introspector 的缓存，
+	 在 web.xml 中注册这个监听器可以保证在 Web 应用关闭的时候释放与其相关的 ClassLoader 的缓存和类引用。 -->
+	 <listener> 
+	    <listener-class> 
+	    org.springframework.web.util.IntrospectorCleanupListener 
+	    </listener-class> 
+	 </listener> 
+ </web-app>
